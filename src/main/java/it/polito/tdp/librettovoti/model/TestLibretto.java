@@ -1,10 +1,13 @@
 package it.polito.tdp.librettovoti.model;
 
 import java.time.LocalDate;
+import java.util.*;
 
 public class TestLibretto { //APPLICAZIONE
 	
 	public static void main (String [] args) {
+		
+	//PUNTO 1
 	
 	System.out.println("Voti del libretto:\n");
 	Libretto l = new Libretto ();
@@ -14,5 +17,12 @@ public class TestLibretto { //APPLICAZIONE
 	l.add(new Voto ("Info", 30, LocalDate.of(2019, 2, 13)));
 	
 	System.out.println(l);
+	
+	//PUNTO 2
+	
+	List <Voto> venticinque = l.listaVotiConPunteggio(25);
+	System.out.println(venticinque);
+	//con questo secondo metodo, ho già la stampa implementata, perché stampo direttamente un libretto
+	System.out.println(l.librettoVotiUguali(25));
 	}
 }
