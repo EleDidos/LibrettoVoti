@@ -1,3 +1,11 @@
+/**
+ *  SONO TUTTE CLASSI che fanno parte del MODELLo, perché
+ *  gestiscono logica del progetto
+ *  
+ *  LIBRETTO = CLASSE CHE USERO' COME MODELLO
+ *  può essere chiamato sia da controller che dalla classe Test Libretto
+ */
+
 package it.polito.tdp.librettovoti.model;
 
 import java.util.*;
@@ -8,17 +16,25 @@ public class Libretto {
 	 // uso lista generica, decido poi dopo in base
 	// ad efficienza se optare per LINKED LIST o per ARRAY LIST
 	
+	//--> se io avessi molti voti, sarebbe meglio costruire in parallerlo una mappa
+	//miglioro EFFICIENZA
+	private Map <String,Voto> votiMap; //identity Map
+	
 	public Libretto () {
 		//se devo modificare la tipologia di lista, dovrò modificare questo unico punto
-		this.voti = new ArrayList <>(); // --> RIFERIMENTO a un oggetto 
-										// questa volta da definire nello specifico 
-										// a quale classe appartiene
+		this.voti = new ArrayList <>(); 
+		this.votiMap = new HashMap<>();
+		
+		System.out.println("Sono Libretto: sono stato creato :)");
 	}
 	
-	public void add(Voto v) {
-		voti.add(v);
+	public void add(Voto v) { //inserisce in due punti diversi
+		voti.add(v); //in ordine di inserimento
+		votiMap.put(v.getNome(),v);//facilemnte accessibili dal nome
+		
 	}
 	
+	//IL LIBRETTO SA STAMPARSI
 	public String toString() {
 		//[LA LISTA QUANDO STAMPA SE STESSA ]
 		String s ="";
@@ -47,7 +63,7 @@ public class Libretto {
 		//e non mostro nulla all'esterno 
 		Libretto nuovo = new Libretto();
 		for(Voto vi: voti)
-			if(vi.getVoto()==punteggio)
+			if(vi.getVoto()==punteggio) 
 				nuovo.add(vi); //libretto ha un suo metodo add
 		return nuovo;
 	}
@@ -61,12 +77,81 @@ public class Libretto {
 	 */
 	
 	public Voto ricercaCorso(String nomeCorso) {
-		Voto risultato = null;
+		//con MAP
+		if(votiMap.get(nomeCorso)!=null)
+			return votiMap.get(nomeCorso);
+		else
+			return null;
+		
+		//con LIST
+		/*Voto risultato = null;
 		for(Voto vi: voti) 
 			if(vi.getNome().equals(nomeCorso))
 				risultato=vi;
 		
-		return risultato;
+		return risultato;*/
 	}
 	
+	
+	//PUNTO 4 
+	/**
+	 * Verifica se nel libretto c'è già un voto con stesso nome
+	 * e stessa valutazione
+	 * In caso affermativo sarà un DUPLICATO
+	 * @param v
+	 * @return
+	 */
+	public boolean esisteDuplicato(Voto v) {
+		
+		//ricerca su una MAP molto più efficiente
+		Voto trovato = votiMap.get(v.getNome());
+		if(trovato==null)
+			return false;
+		else {
+			if(votiMap.get(trovato.getNome()).getVoto()==v.getVoto())
+				return true;
+			else
+				return false;
+		}
+		
+		
+		/*for(Voto vi: voti) con LISTA
+			if(vi.getNome().equals(v.getNome()) && vi.getVoto()==v.getVoto()) {
+				trovato=true;
+				break;
+			}
+		return trovato;*/
+	}
+	
+	
+	//PUNTO 5
+	/**
+	 * Verifica se nel libretto c'è già un voto con stesso esame
+	 * ma valutazione diversa 
+	 * In caso affermativo è un CONFLITTO
+	 * @param v
+	 * @return
+	 */
+	
+	public boolean esisteConflitto(Voto v) {
+	//ricerca su una MAP molto più efficiente
+			Voto trovato =votiMap.get(v.getNome());
+			if(trovato==null)
+				return false;
+			else {
+				if(votiMap.get(trovato.getNome()).getVoto()==v.getVoto())
+					return false;
+				else
+					return true;
+			}
+	/*
+		boolean trovato = false;
+		for(Voto vi: voti)
+			if(vi.getNome().equals(v.getNome()) && vi.getVoto()!=v.getVoto()) {
+				trovato=true;
+				break;
+			}
+		return trovato;*/
+		
+	}
 }

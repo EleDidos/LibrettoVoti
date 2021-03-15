@@ -2,6 +2,8 @@ package it.polito.tdp.librettovoti;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+import it.polito.tdp.librettovoti.model.Libretto;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +14,19 @@ public class EntryPoint extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+    	
+    	//modifico procedura CARICAMENTO SCENA
+    	//creo una classe , invece di chiamare il metodo statico di FXMLLoader.load
+    	//passo come parametro al suo costruttore il dove si trova la scena
+    	//chiamo metodo "load" su loeader, non uso più riferimento statico
+    	//ora ho oggeto loader che ha già un metodo "getController" e me lo salvo in una mia classe
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+        Parent root = loader.load();
+        FXMLController controller = loader.getController();
+        
+        //CREO NEW MODEL () e chiamo metodo "setModel" direttamente sul controller
+        Libretto model = new Libretto ();
+        controller.setModel(model);
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
