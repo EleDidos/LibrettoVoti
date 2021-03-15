@@ -1,17 +1,17 @@
 package it.polito.tdp.librettovoti;
-import javafx.scene.control.TextField;
-import java.awt.event.ActionEvent;
+
 import java.net.URL;
 import java.time.LocalDate;
-//import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.librettovoti.model.Libretto;
 import it.polito.tdp.librettovoti.model.Voto;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-//import javafx.scene.control.TextInputControl;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class FXMLController {
 	
